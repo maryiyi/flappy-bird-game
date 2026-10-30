@@ -9,7 +9,7 @@ public class FileManager
 {
     private const string FilePath = "highscore.txt";
     
-    public void SaveBestScore(int score)
+    public void SaveHighScore(int score)
     {
         string jsonString = JsonSerializer.Serialize(score);
         try
@@ -23,7 +23,7 @@ public class FileManager
         
     }
 
-    public int LoadBestScore()
+    public int LoadHighScore()
     {
         if (File.Exists(FilePath))
         {

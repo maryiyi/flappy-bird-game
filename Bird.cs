@@ -14,6 +14,9 @@ public class Bird
     private const float MaxFallSpeed = 600f;
     private const float StartY = 300f;
 
+    public float Top => Y;
+    public float Bottom => Y + Height;
+
     public Bird(float width, float height)
     {
         Width = width;
