@@ -7,7 +7,7 @@ namespace FlappyBird;
 
 public class FileManager
 {
-    private const string FilePath = "highscore.txt";
+    private const string FilePath = "highscore.json";
     
     public void SaveHighScore(int score)
     {

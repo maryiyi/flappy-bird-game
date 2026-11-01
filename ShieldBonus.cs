@@ -1,0 +1,12 @@
+namespace FlappyBird;
+
+public class ShieldBonus : Obstacle
+{
+    public ShieldBonus(float x, float y) : base(x, y, 32f, 32f) { }
+    
+    public override void OnHit(Bird bird)
+    {
+        bird.ActivateShield();
+        IsFinished = true;
+    }
+}

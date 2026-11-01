@@ -5,10 +5,11 @@ public class GameEngine
     public GameState State { get; private set; }
     public int Score { get; private set; }
     public int HighScore { get; private set; }
-    public Bird Bird { get; }
+    public Bird Bird { get; } = new Bird(34, 31);
     
-    private readonly List<Obstacles> _obstacles { get; }
-    public IReadOnlyList<Obstacles> Obstacles { get; }
+    private readonly List<Obstacle> _obstacles = new();
+    public IReadOnlyList<Obstacle> Obstacles => _obstacles;
+
     private FileManager _fileManager;
 
     private const float WorldWidth = 400f;
@@ -32,10 +33,10 @@ public class GameEngine
         Score = 0;
         State = GameState.Playing;
     }
-    private void Update()
+    public void Update(float dt)
     {
-        if (State == GameState.Playing) return;
-        Bird.Fall(float dt);
+        if (State != GameState.Playing) return;
+        Bird.Fall(dt);
 
         if (Bird.Bottom >= GroundY || Bird.Top <= 0)
         {
@@ -50,10 +51,22 @@ public class GameEngine
 
     public void CheckHit()
     {
-        throw new NotImplementedException();
+        foreach (var obstacle in _obstacles)
+        {
+            if (obstacle.IsFinished) continue;
+            if (obstacle.CheckCol(Bird))
+            {
+                obstacle.OnHit(Bird);
+                if (!Bird.IsAlive)
+                {
+                    GameOver();
+                    break;
+                }
+            }
+        }
     }
 
-    public void GameOver()
+    private void GameOver()
     {
         State = GameState.GameOver;
         if (Score > HighScore)

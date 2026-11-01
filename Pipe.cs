@@ -1,0 +1,33 @@
+namespace FlappyBird;
+
+public class Pipe : Obstacle
+{
+    public const float GapHeight = 150f;
+
+    public Pipe(float x, float y, float width = 50f, float height = 600f) : base(x, y, width, height) { }
+
+    public bool IsPassed { get; set; }
+
+    public float GapTop => Y - GapHeight / 2f;
+    public float GapBottom => Y + GapHeight / 2f;
+    
+    public override void OnHit(Bird bird)
+    {
+        if (bird.HasShield)
+        {
+            bird.DeactivateShield();
+        }
+        else
+        {
+            bird.Kill();
+        }
+    }
+
+    public override bool CheckCol(Bird bird)
+    {
+        bool birdInsidePipe = bird.Right > Left && bird.Left < Right;
+        bool collidingByY = bird.Top < GapTop || bird.Bottom > GapBottom;
+
+        return collidingByY && birdInsidePipe;
+    }
+}

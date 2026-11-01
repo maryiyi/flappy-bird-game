@@ -2,13 +2,14 @@ namespace FlappyBird;
 
 public class Bird
 {
-    private float Y;
-    private float SpeedY;
-    private float Width;
-    private float Height;
-    private bool HasShield;
+    public float Y { get; private set; }
+    public float SpeedY { get; private set; }
+    public float Width { get; }
+    public float Height { get; }
+    public bool HasShield { get; private set; }
+    public bool IsAlive { get; private set; }
 
-    private const float X = 100f;
+    public float X => 100f;  
     private const float Gravity = 900f;
     private const float JumpSpeed = 300f;
     private const float MaxFallSpeed = 600f;
@@ -16,6 +17,8 @@ public class Bird
 
     public float Top => Y;
     public float Bottom => Y + Height;
+    public float Left => X;
+    public float Right => X + Width;
 
     public Bird(float width, float height)
     {
@@ -30,7 +33,7 @@ public class Bird
     }
     public void Fall(float dt)
     {
-        SpeedY = Gravity * dt;
+        SpeedY += Gravity * dt;
         if (SpeedY > MaxFallSpeed)
         {
             SpeedY = MaxFallSpeed;
@@ -46,12 +49,12 @@ public class Bird
     {
         HasShield = false;
     }
-
     public void Reset()
     {
         Y = StartY;
         SpeedY = 0;
         DeactivateShield();
-
+        IsAlive = true;
     }
+    public void Kill() => IsAlive = false;
 }
