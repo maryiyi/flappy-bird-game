@@ -44,6 +44,16 @@ public class Renderer
         {
             Console.WriteLine($"can't set the font: {ex}");    
         }
+        
+        Texture? birdTexture = null;
+        try
+        { 
+            birdTexture = new Texture("bird.png");
+        }
+        catch (Exception ex) 
+        {
+            Console.WriteLine($"texture bird error: {ex}");    
+        }
 
         var clock = new Clock();
         game.Start();
@@ -56,7 +66,7 @@ public class Renderer
             game.Update(dt);
 
             window.Clear(new Color(135, 206, 250));
-            DrawWorld(window, game, font);
+            DrawWorld(window, game, font, birdTexture);
 
             window.Display();
         }
@@ -107,9 +117,9 @@ public class Renderer
                 var shieldShape = new CircleShape(shield.Width / 2f)
                 {
                     Position = new Vector2f(shield.X, shield.Y),
-                    FillColor = Color.Cyan,
-                    OutlineColor = Color.White,
-                    OutlineThickness = 4f
+                    FillColor = new Color(0, 255, 255, 70), 
+                    OutlineColor = Color.Cyan,
+                    OutlineThickness = 2f
                 };
                 window.Draw(shieldShape);
             }
@@ -125,15 +135,29 @@ public class Renderer
         window.Draw(ground);
 
         var bird = game.Bird;
-        var birdShape = new CircleShape(bird.Width / 2f)
-        {
-            Position = new Vector2f(bird.X, bird.Y),
-            FillColor = Color.Yellow,
-            OutlineColor = bird.HasShield ? Color.Cyan : Color.Black,
-            OutlineThickness = bird.HasShield ? 4f : 3f
-        };
-        window.Draw(birdShape);
 
+        if (bird.HasShield)
+        {
+            var shieldAura = new CircleShape(30f)
+            {
+                Position = new Vector2f(bird.X - 3f, bird.Y - 5f),
+                FillColor = new Color(0, 255, 255, 70), 
+                OutlineColor = Color.Cyan,
+                OutlineThickness = 2f
+            };
+            window.Draw(shieldAura);
+        }
+
+        if (birdTexture != null)
+        {
+            var birdSprite = new Sprite(birdTexture)
+            {
+                Position = new Vector2f(bird.X, bird.Y),
+                Scale = new Vector2f(1.5f, 1.5f)
+            };
+            window.Draw(birdSprite);
+        }
+        
         if (font != null)
         {
             var scoreText = new Text(font, $" {game.Score}", 22)

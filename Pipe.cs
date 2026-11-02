@@ -16,6 +16,7 @@ public class Pipe : Obstacle
         if (bird.HasShield)
         {
             bird.DeactivateShield();
+            IsFinished = true;
         }
         else
         {

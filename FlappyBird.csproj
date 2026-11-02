@@ -17,4 +17,10 @@
         </None>
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="bird.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
