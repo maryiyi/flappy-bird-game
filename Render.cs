@@ -48,7 +48,7 @@ public class Renderer
         Texture? birdTexture = null;
         try
         { 
-            birdTexture = new Texture("bird.png");
+            birdTexture = new Texture("Assets/bird.png");
         }
         catch (Exception ex) 
         {

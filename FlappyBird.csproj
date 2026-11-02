@@ -12,14 +12,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Assets\**">
+        <None Update="Assets\flappyFont.ttf">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="bird.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <None Update="Assets\bird.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
