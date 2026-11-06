@@ -13,7 +13,7 @@ public class Pipe : Obstacle
     
     public override void OnHit(Bird bird)
     {
-        if (bird.HasShield)
+        if (bird.HasShield )
         {
             bird.DeactivateShield();
             IsFinished = true;
@@ -30,5 +30,10 @@ public class Pipe : Obstacle
         bool collidingByY = bird.Top < GapTop || bird.Bottom > GapBottom;
 
         return collidingByY && birdInsidePipe;
+    }
+    
+    public void MarkPassed()
+    {
+        IsPassed = true;
     }
 }
