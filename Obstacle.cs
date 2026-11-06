@@ -10,12 +10,12 @@ public abstract class Obstacle
 
     public bool IsOffScreen => X + Width < 0;
     protected const float Speed = 180f;
-    
+
     public float Top => Y;
     public float Bottom => Y + Height;
     public float Left => X;
     public float Right => X + Width;
-    
+
     protected Obstacle(float x, float y, float width, float height)
     {
         X = x;
@@ -36,4 +36,6 @@ public abstract class Obstacle
         return bird.Right > Left && bird.Left < Right &&
                bird.Top < Bottom && bird.Bottom > Top;
     }
+
+    public virtual int PointsWhenPassed() => 0;
 }

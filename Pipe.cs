@@ -36,4 +36,6 @@ public class Pipe : Obstacle
     {
         IsPassed = true;
     }
+
+    public override int PointsWhenPassed() => 1;
 }

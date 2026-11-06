@@ -72,7 +72,7 @@ public class GameEngine
                 if (Bird.Left > pipe.Right || pipe.IsFinished)
                 {
                     pipe.MarkPassed();
-                    Score++;
+                    Score+= obstacle.PointsWhenPassed();
                 }
             }
             if (obstacle.IsOffScreen || obstacle.IsFinished)
