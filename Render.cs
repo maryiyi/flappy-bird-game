@@ -15,24 +15,12 @@ public class Renderer
         var window = new RenderWindow(new VideoMode(new Vector2u((uint)WorldWidth, (uint)WorldHeight)), "Flappy Bird");
         window.SetFramerateLimit(60);
 
+        var input = new InputHandler();
+        
         window.Closed += (sender, e) => window.Close();
         window.KeyPressed += (sender, e) =>
         {
-            if (e.Code == Keyboard.Key.Space)
-            {
-                if (game.State == GameState.GameOver || game.State == GameState.Menu)
-                {
-                    game.Start();
-                }
-                else if (game.State == GameState.Playing)
-                {
-                    game.Flap();
-                }
-            }
-            else if (e.Code == Keyboard.Key.R)
-            {
-                game.Start();
-            }
+            input.Handle(e.Code)?.Execute(game);
         };
 
         Font? font = null;
