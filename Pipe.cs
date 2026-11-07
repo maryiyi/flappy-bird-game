@@ -6,7 +6,7 @@ public class Pipe : Obstacle
 
     public Pipe(float x, float y, float width = 50f, float height = 600f) : base(x, y, width, height) { }
 
-    public bool IsPassed { get; set; }
+    public bool IsPassed { get; protected set; }
 
     public float GapTop => Y - GapHeight / 2f;
     public float GapBottom => Y + GapHeight / 2f;

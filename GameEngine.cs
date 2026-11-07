@@ -5,7 +5,7 @@ public class GameEngine
     public GameState State { get; private set; }
     public int Score { get; private set; }
     public int HighScore { get; private set; }
-    public Bird Bird { get; } = new Bird(34, 31);
+    public Bird Bird { get; }
     
     private readonly List<Obstacle> _obstacles = new();
     public IReadOnlyList<Obstacle> Obstacles => _obstacles;
@@ -17,9 +17,12 @@ public class GameEngine
     public const float WorldHeight = 600f;
     public const float GroundY = 540f;
     public const float SpawnInterval = 2f;
+    public const float BirdWidth = 51f;
+    public const float BirdHeight = 36f;
 
     public GameEngine()
     {
+        Bird = new Bird(BirdWidth, BirdHeight);
         _fileManager = new FileManager();
         
         HighScore = _fileManager.LoadHighScore();

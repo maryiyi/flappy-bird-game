@@ -7,12 +7,10 @@ namespace FlappyBird;
 public class Renderer
 {
     private const float GroundY = 540f;
-    private const float WorldWidth = 400f;
-    private const float WorldHeight = 600f;
-
+    
     public void Run(GameEngine game)
     {
-        var window = new RenderWindow(new VideoMode(new Vector2u((uint)WorldWidth, (uint)WorldHeight)), "Flappy Bird");
+        var window = new RenderWindow(new VideoMode(new Vector2u((uint)GameEngine.WorldWidth, (uint)GameEngine.WorldHeight)), "Flappy Bird");
         window.SetFramerateLimit(60);
 
         var input = new InputHandler();
@@ -113,7 +111,7 @@ public class Renderer
             }
         }
 
-        var ground = new RectangleShape(new Vector2f(WorldWidth, WorldHeight - GroundY))
+        var ground = new RectangleShape(new Vector2f(GameEngine.WorldWidth, GameEngine.WorldHeight - GroundY))
         {
             Position = new Vector2f(0f, GroundY),
             FillColor = new Color(220, 200, 130),
@@ -141,7 +139,9 @@ public class Renderer
             var birdSprite = new Sprite(birdTexture)
             {
                 Position = new Vector2f(bird.X, bird.Y),
-                Scale = new Vector2f(1.5f, 1.5f)
+                Scale = new Vector2f(bird.Width / birdTexture.Size.X,
+                    bird.Height / birdTexture.Size.Y
+                )
             };
             window.Draw(birdSprite);
         }
@@ -150,7 +150,7 @@ public class Renderer
         {
             var scoreText = new Text(font, $" {game.Score}", 22)
             {
-                Position = new Vector2f((WorldWidth/2)-10, 10f),
+                Position = new Vector2f((GameEngine.WorldWidth/2)-10, 10f),
                 FillColor = Color.White,
                 OutlineColor = Color.Black,
                 OutlineThickness = 4f
