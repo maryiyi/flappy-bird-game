@@ -6,8 +6,6 @@ namespace FlappyBird;
 
 public class Renderer
 {
-    private const float GroundY = 540f;
-    
     public void Run(GameEngine game)
     {
         var window = new RenderWindow(new VideoMode(new Vector2u((uint)GameEngine.WorldWidth, (uint)GameEngine.WorldHeight)), "Flappy Bird");
@@ -73,7 +71,7 @@ public class Renderer
                 };
                 window.Draw(topPipe);
 
-                float bottomHeight = GroundY - pipe.GapBottom;
+                float bottomHeight = GameEngine.GroundY - pipe.GapBottom;
                 if (bottomHeight > 0)
                 {
                     var bottomPipe = new RectangleShape(new Vector2f(pipe.Width, bottomHeight))
@@ -110,9 +108,9 @@ public class Renderer
             }
         }
 
-        var ground = new RectangleShape(new Vector2f(GameEngine.WorldWidth, GameEngine.WorldHeight - GroundY))
+        var ground = new RectangleShape(new Vector2f(GameEngine.WorldWidth, GameEngine.WorldHeight - GameEngine.GroundY))
         {
-            Position = new Vector2f(0f, GroundY),
+            Position = new Vector2f(0f, GameEngine.GroundY),
             FillColor = new Color(220, 200, 130),
             OutlineColor = new Color(100, 80, 40),
             OutlineThickness = 4f
