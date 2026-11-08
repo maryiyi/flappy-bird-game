@@ -7,8 +7,8 @@ public class GameEngine
     public int HighScore { get; private set; }
     public Bird Bird { get; }
     
-    private readonly List<Obstacle> _obstacles = new();
-    public IReadOnlyList<Obstacle> Obstacles => _obstacles;
+    private readonly List<WorldObjects> _objectsList = new();
+    public IReadOnlyList<WorldObjects> ObjectsList => _objectsList;
     private readonly FileManager _fileManager;
     private readonly Random _random = new Random();
     private float _spawnTimer;
@@ -33,7 +33,7 @@ public class GameEngine
     public void Start()
     {
         Bird.Reset();
-        _obstacles.Clear();
+        _objectsList.Clear();
         Score = 0;
         _spawnTimer = 0f;
         ChangeState(new PlayingState());
@@ -59,16 +59,16 @@ public class GameEngine
             SpawnObstacle();
         }
 
-        foreach (var obstacle in _obstacles)
+        foreach (var obstacle in _objectsList)
         {
             obstacle.Move(dt);
         }
 
         CheckHit();
         
-        for (int i = _obstacles.Count - 1; i >= 0; i--)
+        for (int i = _objectsList.Count - 1; i >= 0; i--)
         {
-            var obstacle = _obstacles[i];
+            var obstacle = _objectsList[i];
             
             if (obstacle is Pipe pipe && !pipe.IsPassed)
             {
@@ -80,7 +80,7 @@ public class GameEngine
             }
             if (obstacle.IsOffScreen || obstacle.IsFinished)
             {
-                _obstacles.RemoveAt(i);
+                _objectsList.RemoveAt(i);
             }
         }
     }
@@ -92,7 +92,7 @@ public class GameEngine
 
     private void CheckHit()
     {
-        foreach (var obstacle in _obstacles)
+        foreach (var obstacle in _objectsList)
         {
             if (obstacle.IsFinished) continue;
             if (obstacle.CheckCol(Bird))
@@ -120,16 +120,16 @@ public class GameEngine
     private void SpawnObstacle()
     {
         float CenterY = _random.Next(150, 390);
-        _obstacles.Add(new Pipe(WorldWidth, CenterY));
+        _objectsList.Add(new Pipe(WorldWidth, CenterY));
 
         int chance = _random.Next(100);
         if (chance < 30)
         {
-            _obstacles.Add(new ShieldBonus(WorldWidth + 200f, CenterY));
+            _objectsList.Add(new ShieldBonus(WorldWidth + 200f, CenterY));
         }
         else if (chance < 40)
         {
-            _obstacles.Add(new Bomb(WorldWidth + 200f, CenterY));
+            _objectsList.Add(new Bomb(WorldWidth + 200f, CenterY));
         }
     }
 

@@ -59,7 +59,7 @@ public class Renderer
     }
     private void DrawWorld(RenderWindow window, GameEngine game, Font? font, Texture birdTexture)
     {
-        foreach (var obstacle in game.Obstacles)
+        foreach (var obstacle in game.ObjectsList)
         {
             if (obstacle.IsFinished) continue;
 
