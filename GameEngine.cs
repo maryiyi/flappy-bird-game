@@ -2,16 +2,17 @@ namespace FlappyBird;
 
 public class GameEngine
 {
-    public GameState State { get; private set; }
+    public GameState State => _state.Type;
     public int Score { get; private set; }
     public int HighScore { get; private set; }
     public Bird Bird { get; }
     
     private readonly List<Obstacle> _obstacles = new();
     public IReadOnlyList<Obstacle> Obstacles => _obstacles;
-    private FileManager _fileManager;
+    private readonly FileManager _fileManager;
     private readonly Random _random = new Random();
     private float _spawnTimer;
+    private IGameState _state = new MenuState();
 
     public const float WorldWidth = 400f;
     public const float WorldHeight = 600f;
@@ -26,17 +27,16 @@ public class GameEngine
         _fileManager = new FileManager();
         
         HighScore = _fileManager.LoadHighScore();
-        State = GameState.Menu;
+        ChangeState(new MenuState());
     }
 
     public void Start()
     {
-        if (State == GameState.Playing) return;
         Bird.Reset();
         _obstacles.Clear();
         Score = 0;
         _spawnTimer = 0f;
-        State = GameState.Playing;
+        ChangeState(new PlayingState());
     }
     public void Update(float dt)
     {
@@ -83,7 +83,6 @@ public class GameEngine
                 _obstacles.RemoveAt(i);
             }
         }
-        
     }
 
     public void Flap()
@@ -110,7 +109,7 @@ public class GameEngine
 
     private void GameOver()
     {
-        State = GameState.GameOver;
+        ChangeState(new GameOverState());
         if (Score > HighScore)
         {
             HighScore = Score;
@@ -132,6 +131,10 @@ public class GameEngine
         {
             _obstacles.Add(new Bomb(WorldWidth + 200f, CenterY));
         }
+    }
 
+    public void ChangeState(IGameState newState)
+    {
+        _state = newState;
     }
 }
