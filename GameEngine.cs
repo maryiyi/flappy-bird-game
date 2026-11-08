@@ -40,7 +40,7 @@ public class GameEngine
     }
     public void Update(float dt)
     {
-        dt = Math.Min(dt, 05f);
+        dt = Math.Min(dt, 0.05f);
         
         if (State != GameState.Playing) return;
         Bird.Fall(dt);
@@ -87,9 +87,13 @@ public class GameEngine
 
     public void Flap()
     {
-        Bird.Flap();
+        _state.Flap(this);
     }
 
+    internal void GameFlap()
+    {
+        Bird.Flap();
+    }
     private void CheckHit()
     {
         foreach (var obstacle in _objectsList)

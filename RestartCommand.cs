@@ -1,6 +1,6 @@
 namespace FlappyBird;
 
-public class StartCommand : IGameCommand
+public class RestartCommand : IGameCommand
 {
     public void Execute(GameEngine game)
     {

@@ -6,7 +6,7 @@ public class PlayingState : IGameState
     
     public void Flap(GameEngine game)
     {
-        game.Flap();
+        game.GameFlap();
     }
 
     public void Restart(GameEngine game)

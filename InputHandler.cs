@@ -10,7 +10,7 @@ public class InputHandler
         return key switch
         {
             Keyboard.Key.Space => new FlapCommand(),
-            Keyboard.Key.R => new StartCommand(),
+            Keyboard.Key.R => new RestartCommand(),
             _ => null
         };
     }

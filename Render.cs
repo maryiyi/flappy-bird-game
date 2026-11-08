@@ -42,7 +42,6 @@ public class Renderer
         }
 
         var clock = new Clock();
-        game.Start();
 
         while (window.IsOpen)
         {
@@ -176,6 +175,18 @@ public class Renderer
                     OutlineThickness = 1.5f
                 };
                 window.Draw(shieldText);
+            }
+
+            if (game.State == GameState.Menu)
+            {
+                var menuText = new Text(font, "Press [Space] to Start", 25)
+                {
+                    Position = new Vector2f(64f, 220f),
+                    FillColor = Color.White,
+                    OutlineColor = Color.Black,
+                    OutlineThickness = 3f
+                };
+                window.Draw(menuText);
             }
 
             if (game.State == GameState.GameOver)
