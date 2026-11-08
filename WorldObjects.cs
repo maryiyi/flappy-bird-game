@@ -38,4 +38,6 @@ public abstract class WorldObjects
     }
 
     public virtual int PointsWhenPassed() => 0;
+
+    public virtual int TryGetPoint(Bird bird) => 0;
 }

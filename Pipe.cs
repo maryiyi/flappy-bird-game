@@ -38,4 +38,19 @@ public class Pipe : WorldObjects
     }
 
     public override int PointsWhenPassed() => 1;
+
+    public override int TryGetPoint(Bird bird)
+    {
+        if (IsPassed)
+        {
+            return 0;
+        }
+        if (bird.Left > Right || IsFinished)
+        {
+            MarkPassed();
+            return PointsWhenPassed();
+        }
+
+        return 0;
+    }
 }

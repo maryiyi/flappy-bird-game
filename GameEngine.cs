@@ -49,14 +49,13 @@ public class GameEngine
         {
             GameOver();
             return;
-            
         }
         
         _spawnTimer += dt;
         if (_spawnTimer >= SpawnInterval)
         {
             _spawnTimer = 0f;
-            SpawnObstacle();
+            SpawnObjects();
         }
 
         foreach (var obstacle in _objectsList)
@@ -68,17 +67,10 @@ public class GameEngine
         
         for (int i = _objectsList.Count - 1; i >= 0; i--)
         {
-            var obstacle = _objectsList[i];
+            var worldObject = _objectsList[i];
+            Score+= worldObject.TryGetPoint(Bird);
             
-            if (obstacle is Pipe pipe && !pipe.IsPassed)
-            {
-                if (Bird.Left > pipe.Right || pipe.IsFinished)
-                {
-                    pipe.MarkPassed();
-                    Score+= obstacle.PointsWhenPassed();
-                }
-            }
-            if (obstacle.IsOffScreen || obstacle.IsFinished)
+            if (worldObject.IsOffScreen || worldObject.IsFinished)
             {
                 _objectsList.RemoveAt(i);
             }
@@ -94,14 +86,15 @@ public class GameEngine
     {
         Bird.Flap();
     }
+
     private void CheckHit()
     {
-        foreach (var obstacle in _objectsList)
+        foreach (var worldObjects in _objectsList)
         {
-            if (obstacle.IsFinished) continue;
-            if (obstacle.CheckCol(Bird))
+            if (worldObjects.IsFinished) continue;
+            if (worldObjects.CheckCol(Bird))
             {
-                obstacle.OnHit(Bird);
+                worldObjects.OnHit(Bird);
                 if (!Bird.IsAlive)
                 {
                     GameOver();
@@ -121,7 +114,7 @@ public class GameEngine
         }
     }
 
-    private void SpawnObstacle()
+    private void SpawnObjects()
     {
         float CenterY = _random.Next(150, 390);
         _objectsList.Add(new Pipe(WorldWidth, CenterY));
