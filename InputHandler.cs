@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using SFML.Window;
 
 namespace FlappyBird;

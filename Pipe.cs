@@ -1,6 +1,6 @@
 namespace FlappyBird;
 
-public class Pipe : WorldObjects
+public class Pipe : WorldObject
 {
     public const float GapHeight = 150f;
 

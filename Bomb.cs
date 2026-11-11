@@ -1,6 +1,6 @@
 namespace FlappyBird;
 
-public class Bomb : WorldObjects
+public class Bomb : WorldObject
 {
     public Bomb(float x, float y) : base(x, y, 30f, 30f) { }
     

@@ -1,6 +1,6 @@
 namespace FlappyBird;
 
-public class ShieldBonus : WorldObjects
+public class ShieldBonus : WorldObject
 {
     public ShieldBonus(float x, float y) : base(x, y, 32f, 32f) { }
     

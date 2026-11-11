@@ -6,9 +6,9 @@ public class GameEngine
     public int Score { get; private set; }
     public int HighScore { get; private set; }
     public Bird Bird { get; }
-    
-    private readonly List<WorldObjects> _objectsList = new();
-    public IReadOnlyList<WorldObjects> ObjectsList => _objectsList;
+
+    private readonly List<WorldObject> _objectsList = new();
+    public IReadOnlyList<WorldObject> ObjectsList => _objectsList;
     private readonly FileManager _fileManager;
     private readonly Random _random = new Random();
     private float _spawnTimer;
@@ -25,23 +25,25 @@ public class GameEngine
     {
         Bird = new Bird(BirdWidth, BirdHeight);
         _fileManager = new FileManager();
-        
+
         HighScore = _fileManager.LoadHighScore();
         ChangeState(new MenuState());
     }
 
     public void Start()
     {
+        SaveScore();
         Bird.Reset();
         _objectsList.Clear();
         Score = 0;
         _spawnTimer = 0f;
         ChangeState(new PlayingState());
     }
+
     public void Update(float dt)
     {
         dt = Math.Min(dt, 0.05f);
-        
+
         if (State != GameState.Playing) return;
         Bird.Fall(dt);
 
@@ -50,7 +52,7 @@ public class GameEngine
             GameOver();
             return;
         }
-        
+
         _spawnTimer += dt;
         if (_spawnTimer >= SpawnInterval)
         {
@@ -64,12 +66,12 @@ public class GameEngine
         }
 
         CheckHit();
-        
+
         for (int i = _objectsList.Count - 1; i >= 0; i--)
         {
             var worldObject = _objectsList[i];
-            Score+= worldObject.TryGetPoint(Bird);
-            
+            Score += worldObject.TryGetPoint(Bird);
+
             if (worldObject.IsOffScreen || worldObject.IsFinished)
             {
                 _objectsList.RemoveAt(i);
@@ -107,6 +109,11 @@ public class GameEngine
     private void GameOver()
     {
         ChangeState(new GameOverState());
+        SaveScore();
+    }
+
+    private void SaveScore()
+    {
         if (Score > HighScore)
         {
             HighScore = Score;
@@ -114,7 +121,7 @@ public class GameEngine
         }
     }
 
-    private void SpawnObjects()
+private void SpawnObjects()
     {
         float CenterY = _random.Next(150, 390);
         _objectsList.Add(new Pipe(WorldWidth, CenterY));
@@ -130,7 +137,7 @@ public class GameEngine
         }
     }
 
-    public void ChangeState(IGameState newState)
+    private void ChangeState(IGameState newState)
     {
         _state = newState;
     }

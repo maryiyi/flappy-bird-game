@@ -1,6 +1,6 @@
 namespace FlappyBird;
 
-public abstract class WorldObjects
+public abstract class WorldObject
 {
     public float X { get; protected set; }
     public float Y { get; protected set; }
@@ -16,7 +16,7 @@ public abstract class WorldObjects
     public float Left => X;
     public float Right => X + Width;
 
-    protected WorldObjects(float x, float y, float width, float height)
+    protected WorldObject(float x, float y, float width, float height)
     {
         X = x;
         Y = y;
