@@ -10,6 +10,7 @@ public class Renderer
     {
         var window = new RenderWindow(new VideoMode(new Vector2u((uint)GameEngine.WorldWidth, (uint)GameEngine.WorldHeight)), "Flappy Bird");
         window.SetFramerateLimit(60);
+        window.SetKeyRepeatEnabled(false);
 
         var input = new InputHandler();
         
@@ -39,6 +40,19 @@ public class Renderer
             Console.WriteLine($"texture bird error: {ex}");    
         }
 
+        Sprite? birdSprite = null;
+
+        if (birdTexture != null)
+        {
+            birdSprite = new Sprite(birdTexture)
+            {
+                Scale = new Vector2f(
+                    game.Bird.Width / birdTexture.Size.X,
+                    game.Bird.Height / birdTexture.Size.Y
+                )
+            };
+        }
+        
         var clock = new Clock();
 
         while (window.IsOpen)
@@ -49,12 +63,12 @@ public class Renderer
             game.Update(dt);
 
             window.Clear(new Color(135, 206, 250));
-            DrawWorld(window, game, font, birdTexture);
+            DrawWorld(window, game, font, birdSprite);
 
             window.Display();
         }
     }
-    private void DrawWorld(RenderWindow window, GameEngine game, Font? font, Texture birdTexture)
+    private void DrawWorld(RenderWindow window, GameEngine game, Font? font, Sprite? birdSprite)
     {
         foreach (var obstacle in game.ObjectsList)
         {
@@ -131,17 +145,12 @@ public class Renderer
             window.Draw(shieldAura);
         }
 
-        if (birdTexture != null)
+        if (birdSprite != null)
         {
-            var birdSprite = new Sprite(birdTexture)
-            {
-                Position = new Vector2f(bird.X, bird.Y),
-                Scale = new Vector2f(bird.Width / birdTexture.Size.X,
-                    bird.Height / birdTexture.Size.Y
-                )
-            };
-            window.Draw(birdSprite);
+            birdSprite.Position = new Vector2f(game.Bird.X, game.Bird.Y);
         }
+        window.Draw(birdSprite);
+        
         
         if (font != null)
         {

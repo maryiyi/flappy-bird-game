@@ -141,4 +141,9 @@ private void SpawnObjects()
     {
         _state = newState;
     }
+    
+    public void Restart()
+    {
+        _state.Restart(this);
+    }
 }

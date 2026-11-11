@@ -4,6 +4,6 @@ public class RestartCommand : IGameCommand
 {
     public void Execute(GameEngine game)
     {
-        game.Start();
+        game.Restart();
     }
 }
